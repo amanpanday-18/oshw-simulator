@@ -6,12 +6,14 @@ import { CircuitComponent, ComponentType } from '@/types/circuit';
 import ArduinoNode from './nodes/ArduinoNode';
 import LEDNode from './nodes/LEDNode';
 import ButtonNode from './nodes/ButtonNode';
+import PotentiometerNode from './nodes/PotentiometerNode';
 
 // Map component types to their React component
 const COMPONENT_MAP: Record<ComponentType, React.FC<{ component: CircuitComponent }>> = {
     ARDUINO_UNO: ArduinoNode,
     LED: LEDNode,
     PUSH_BUTTON: ButtonNode,
+    POTENTIOMETER: PotentiometerNode,
 };
 
 // Helper to get pin absolute position (Simplified hardcoded offsets for prototype)
@@ -26,13 +28,16 @@ const getPinPosition = (comp: CircuitComponent, pinId: string) => {
         // This MUST match the PINS array in ArduinoNode.tsx
         // D13 = x:25, y:170; D10 = x:55, y:170; D2 = x:140, y:170
         // Power: 5V = x:50, y:10; GND(power) = x:60, y:10
+        // Analog: A0 = x:95, y:10
         const offsets: Record<string, { x: number, y: number }> = {
             'D13': { x: 25, y: 170 }, 'D12': { x: 35, y: 170 }, 'D11': { x: 45, y: 170 },
             'D10': { x: 55, y: 170 }, 'D9': { x: 65, y: 170 }, 'D8': { x: 75, y: 170 },
             'D7': { x: 90, y: 170 }, 'D6': { x: 100, y: 170 }, 'D5': { x: 110, y: 170 },
             'D4': { x: 120, y: 170 }, 'D3': { x: 130, y: 170 }, 'D2': { x: 140, y: 170 },
             'GND1': { x: 60, y: 10 }, 'GND2': { x: 70, y: 10 }, 'GND3': { x: 15, y: 170 },
-            '5V': { x: 50, y: 10 }
+            '5V': { x: 50, y: 10 },
+            'A0': { x: 95, y: 10 }, 'A1': { x: 105, y: 10 }, 'A2': { x: 115, y: 10 },
+            'A3': { x: 125, y: 10 }, 'A4': { x: 135, y: 10 }, 'A5': { x: 145, y: 10 }
         };
         const offset = offsets[pinId];
         if (offset) {
@@ -51,6 +56,20 @@ const getPinPosition = (comp: CircuitComponent, pinId: string) => {
         // Center x=24, y=24
         if (pinId === 'OUT') return { x: comp.x + 48, y: comp.y + 24 }; // Right edge
         if (pinId === 'IN') return { x: comp.x, y: comp.y + 24 }; // Left edge
+    }
+
+    if (comp.type === 'POTENTIOMETER') {
+        // Width 64px (w-16), Height 64px (h-16)
+        // Legs are at bottom: GND, SIG, VCC
+        // Center x=32
+        // Legs y=64 (bottom) + a bit
+        // Gap 2 (0.5rem = 8px)
+        // GND: x=32-10, y=64
+        // SIG: x=32, y=64
+        // VCC: x=32+10, y=64
+        if (pinId === 'GND') return { x: comp.x + 22, y: comp.y + 64 };
+        if (pinId === 'SIG') return { x: comp.x + 32, y: comp.y + 64 };
+        if (pinId === 'VCC') return { x: comp.x + 42, y: comp.y + 64 };
     }
 
     return { x, y };

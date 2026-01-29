@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# OSHW Arduino Simulator 🚀
 
-First, run the development server:
+A web-based interactive Arduino Simulator built for the **FOSSEE Screening Task**. This application allows users to simulate basic Arduino circuits directly in the browser with a drag-and-drop interface, real-time wiring, and C++ code generation.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+![OSHW Simulator Screenshot](https://raw.githubusercontent.com/amanpanday-18/oshw-simulator/main/public/demo.png)
+*(Note: You can add a screenshot to the public folder and push it to have it show up here)*
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Interactive Canvas**: Drag and drop components to build your circuit.
+- **Components**:
+  - **Arduino Uno**: The brain of the operation.
+  - **LED (Red)**: Visual output with brightness states.
+  - **Push Button**: Digital input triggering.
+  - **Potentiometer (New!)** 🎛️: Analog input simulation with a rotatable knob (Scroll to rotate).
+- **Auto-Wiring System**: Smart logic automatically connects compatible pins (e.g., Potentiometer → A0).
+- **Real-Time Code Generator**: Instantly generates valid Arduino C++ code based on your circuit.
+- **Live Simulation**: 
+  - Click **Run** to power the circuit.
+  - Interact with buttons and knobs to see real-time feedback.
+  - Supports Digital I/O and Analog Input (PWM simulation).
+- **Modern UI**: Built with a custom dark theme and glassmorphism design.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tech Stack
 
-## Learn More
+- **Framework**: [Next.js 14](https://nextjs.org/) (App Router)
+- **Language**: TypeScript
+- **Styling**: Vanilla CSS (CSS Modules & Global Styles)
+- **Icons**: Lucide React
+- **State Management**: React Context API
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Installation
 
-## Deploy on Vercel
+1.  **Clone the repository**:
+    ```bash
+    git clone https://github.com/amanpanday-18/oshw-simulator.git
+    cd oshw-simulator
+    ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    # or
+    yarn install
+    ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+
+4.  Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## 📖 How to Use
+
+1.  **Select a Component** from the left palette.
+2.  **Drag it** onto the dark canvas area.
+3.  **Connect** components (Wiring is handled automatically for this prototype).
+4.  Click the **Run** button in the top toolbar.
+    - **Button**: Click the blue button on the canvas to light up the LED.
+    - **Potentiometer**: Hover over the knob and **scroll your mouse wheel** to adjust the value and control LED brightness.
+5.  View the code by clicking the **< >** icon to see the generated `.ino` code.
+
+## 🤝 Contribution
+
+This is a submission for the FOSSEE Internship Screening Task.
+
+---
+Built with ❤️ using Next.js

@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Cpu, Lightbulb, ToggleLeft } from 'lucide-react';
+import { Cpu, Lightbulb, ToggleLeft, Gauge } from 'lucide-react';
 import { ComponentType } from '@/types/circuit';
 
 export default function Palette() {
@@ -31,6 +31,7 @@ export default function Palette() {
                 <PaletteItem type="ARDUINO_UNO" icon={Cpu} label="Arduino Uno" />
                 <PaletteItem type="LED" icon={Lightbulb} label="LED (Red)" />
                 <PaletteItem type="PUSH_BUTTON" icon={ToggleLeft} label="Push Button" />
+                <PaletteItem type="POTENTIOMETER" icon={Gauge} label="Potentiometer" />
             </div>
 
             <div className="instructions">

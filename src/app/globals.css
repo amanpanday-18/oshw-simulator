@@ -287,6 +287,27 @@ body {
   opacity: 0;
 }
 
+.pin-label-text {
+  position: absolute;
+  font-size: 8px;
+  background-color: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 2px;
+  font-family: monospace;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 20;
+  opacity: 0;
+  transition: opacity 0.1s;
+}
+
+.pin-dot:hover+.pin-label-text {
+  opacity: 1;
+}
+
 .code-header {
   padding: 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -796,4 +817,80 @@ body {
   transform: translateX(-50%);
   width: 12px;
   height: 4px;
+}
+
+/* --- Component: Potentiometer Node --- */
+.pot-node {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  background-color: #1f2937;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #4b5563;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+
+.pot-label {
+  position: absolute;
+  top: 4px;
+  font-size: 8px;
+  color: #9ca3af;
+  font-family: monospace;
+}
+
+.pot-knob {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  border: 2px solid #9ca3af;
+  position: relative;
+  cursor: ns-resize;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.pot-marker {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 12px;
+  background-color: #ef4444;
+  border-radius: 9999px;
+}
+
+.pot-legs {
+  position: absolute;
+  bottom: -8px;
+  display: flex;
+  gap: 8px;
+}
+
+.pot-leg {
+  width: 4px;
+  height: 16px;
+  background-color: #9ca3af;
+}
+
+.pot-value {
+  position: absolute;
+  top: -24px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 10px;
+  padding: 2px 4px;
+  border-radius: 2px;
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
+}
+
+.pot-node:hover .pot-value {
+  opacity: 1;
 }

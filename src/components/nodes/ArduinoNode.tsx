@@ -59,23 +59,41 @@ export default function ArduinoNode({ component }: { component: CircuitComponent
 
             {/* Pins Render Only (Logic handled by wiring system later) */}
             {/* We represent pins as absolute positioned dots for visual reference */}
-            {PINS.map(pin => (
-                <div
-                    key={pin.id}
-                    title={pin.id}
-                    className="pin-dot"
-                    style={{ left: pin.x, top: pin.y }}
-                />
-            ))}
+            {PINS.map(pin => {
+                // Determine label text (clean up IDs)
+                let label = pin.id;
+                if (label.startsWith('GND')) label = 'GND';
+                if (label.startsWith('D')) label = label; // Keep D0, D1 etc
+                if (label === '3.3V') label = '3.3V';
+                if (label === '5V') label = '5V';
 
-            {/* Labels for Pins (Simplified) */}
-            <div className="pin-labels-top">
-                <span>POWER</span>
-                <span>ANALOG IN</span>
-            </div>
-            <div className="pin-labels-bottom">
-                <span>DIGITAL ~ PWM</span>
-            </div>
+                // Determine position
+                // Top row (y=10) -> Label below
+                // Bottom row (y=170) -> Label above
+                const isTopRow = pin.y < 50;
+                const labelY = isTopRow ? pin.y + 10 : pin.y - 10;
+
+                return (
+                    <React.Fragment key={pin.id}>
+                        <div
+                            title={pin.id}
+                            className="pin-dot"
+                            style={{ left: pin.x, top: pin.y }}
+                        />
+                        <div
+                            className="pin-label-text"
+                            style={{
+                                left: pin.x + 4, // Center on the dot (dot is 8px wide, so center is +4)
+                                top: labelY
+                            }}
+                        >
+                            {label}
+                        </div>
+                    </React.Fragment>
+                );
+            })}
+
+
 
         </div>
     );

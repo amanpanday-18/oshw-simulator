@@ -53,6 +53,22 @@ export function CircuitProvider({ children }: { children: ReactNode }) {
             }
         }
 
+        // If adding Potentiometer, try connecting to Arduino A0
+        if (newComp.type === 'POTENTIOMETER') {
+            const arduino = currentComps.find(c => c.type === 'ARDUINO_UNO');
+            if (arduino) {
+                const newWire: Wire = {
+                    id: uuidv4(),
+                    fromCompId: newComp.id,
+                    fromPinId: 'SIG',
+                    toCompId: arduino.id,
+                    toPinId: 'A0',
+                    color: 'orange'
+                };
+                setWires(prev => [...prev, newWire]);
+            }
+        }
+
         // If adding Arduino, try connecting to existing components
         if (newComp.type === 'ARDUINO_UNO') {
             // Check for existing LED
@@ -81,6 +97,19 @@ export function CircuitProvider({ children }: { children: ReactNode }) {
                     toCompId: newComp.id,
                     toPinId: 'D2',
                     color: 'green'
+                };
+                setWires(prev => [...prev, newWire]);
+            }
+            // Check for existing Potentiometer
+            const pot = currentComps.find(c => c.type === 'POTENTIOMETER');
+            if (pot) {
+                const newWire: Wire = {
+                    id: uuidv4(),
+                    fromCompId: pot.id,
+                    fromPinId: 'SIG',
+                    toCompId: newComp.id,
+                    toPinId: 'A0',
+                    color: 'orange'
                 };
                 setWires(prev => [...prev, newWire]);
             }
@@ -152,18 +181,33 @@ export function CircuitProvider({ children }: { children: ReactNode }) {
             const newUpdates: Record<string, number> = {};
             let hasUpdates = false;
 
-            // Simple Logic: If Button (assumed connected to D2) is pressed (simulated by checking if we tracked it, 
-            // but actually we need to read the PIN state of D2 directly).
+            // Simple Logic:
+            // 1. Check A0 (Potentiometer). If it has value > 0 (or just connected), use it to drive D10 (PWM led).
+            // 2. Else check D2 (Button). If HIGH, turn D10 HIGH.
 
-            // In a real simulator, we'd walk the graph. 
-            // Here we look for the specific hardcoded relationship for the screening task.
-            const d2State = currentPinStates['D2'] || 0;
+            const a0Val = currentPinStates['A0'];
 
-            // Check logic: D2 -> D10
-            if (d2State === 1 && currentPinStates['D10'] !== 1) {
-                setPinState('D10', 1);
-            } else if (d2State === 0 && currentPinStates['D10'] !== 0) {
-                setPinState('D10', 0);
+            // If we have an analog input (simulating Potentiometer taking precedence)
+            if (a0Val !== undefined) {
+                // Map 0-1023 to 0-255 (PWM) - We simulate PWM by just passing the raw value 
+                // and letting the LED component decide brightness, or we normalize it here.
+                // For now, let's just pass 1 (HIGH) if > 500 for digital, but for true analog 
+                // we need the LED to support brightness.
+                // Let's stick to simple logic: If Analog > 512 -> ON, else OFF (ADC Threshold)
+                // OR better: If A0 is active, ignore Button.
+                const isHigh = a0Val > 512 ? 1 : 0;
+                if (currentPinStates['D10'] !== isHigh) {
+                    setPinState('D10', isHigh);
+                }
+            } else {
+                // Fallback to Digital Logic: D2 -> D10
+                const d2State = currentPinStates['D2'] || 0;
+
+                if (d2State === 1 && currentPinStates['D10'] !== 1) {
+                    setPinState('D10', 1);
+                } else if (d2State === 0 && currentPinStates['D10'] !== 0) {
+                    setPinState('D10', 0);
+                }
             }
 
         }, 50); // 20Hz tick for smoother feel

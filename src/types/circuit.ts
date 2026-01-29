@@ -1,4 +1,4 @@
-export type ComponentType = 'ARDUINO_UNO' | 'LED' | 'PUSH_BUTTON';
+export type ComponentType = 'ARDUINO_UNO' | 'LED' | 'PUSH_BUTTON' | 'POTENTIOMETER';
 
 export interface Pin {
   id: string; // e.g., "D10", "GND", "ANODE"
