@@ -1,66 +1,52 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import Link from 'next/link';
+import { ArrowRight, Cpu, Zap, Code } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    return (
+        <div className="landing-container">
+            {/* Hero Section */}
+            <header className="hero-section">
+                <div className="hero-content">
+                    <div className="badge">FOSSEE Semester Internship 2026</div>
+                    <h1>
+                        OSHW <span className="gradient-text">Simulator</span>
+                    </h1>
+                    <p className="hero-subtitle">
+                        Build and simulate Arduino circuits directly in your browser.
+                        Drag, drop, wire, and generate code instantly.
+                    </p>
+                    <div className="cta-group">
+                        <Link href="/simulator" className="cta-primary">
+                            Start Simulator <ArrowRight size={20} />
+                        </Link>
+                    </div>
+                </div>
+            </header>
+
+            {/* Features Section */}
+            <section className="features-section">
+                <div className="features-grid">
+                    <div className="feature-card">
+                        <div className="feature-icon"><Cpu size={32} /></div>
+                        <h3>Smart Components</h3>
+                        <p>Drag and drop Arduino Uno, LEDs, and Buttons. Visual feedback simulates real-world behavior.</p>
+                    </div>
+                    <div className="feature-card">
+                        <div className="feature-icon"><Zap size={32} /></div>
+                        <h3>Auto-Wiring Logic</h3>
+                        <p>Intelligent system automatically connects components to default pins, saving you setup time.</p>
+                    </div>
+                    <div className="feature-card">
+                        <div className="feature-icon"><Code size={32} /></div>
+                        <h3>Real-time Coding</h3>
+                        <p>Generates production-ready Arduino C++ code instantly as you build your circuit.</p>
+                    </div>
+                </div>
+            </section>
+
+            <footer className="landing-footer">
+                <p>Built for FOSSEE Screening Task • 2026</p>
+            </footer>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+    );
 }
