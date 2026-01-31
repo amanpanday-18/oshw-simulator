@@ -891,6 +891,64 @@ body {
   pointer-events: none;
 }
 
-.pot-node:hover .pot-value {
-  opacity: 1;
+
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .workbench {
+    flex-direction: column-reverse;
+    /* Palette at bottom */
+  }
+
+  .sidebar {
+    width: 100%;
+    height: 200px;
+    /* Fixed height for palette area */
+    border-right: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    overflow-y: auto;
+    flex-direction: row;
+    /* Horizontal items if needed, or keep vertical but scrollable */
+    flex-wrap: wrap;
+    /* Allow wrapping */
+  }
+
+  .code-panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    z-index: 50;
+  }
+
+  .palette-header {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+
+  .space-y-1 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 100%;
+  }
+
+  /* Override space-y-1 default margin */
+  .space-y-1> :not([hidden])~ :not([hidden]) {
+    margin-top: 0;
+  }
+
+  .palette-item {
+    margin-bottom: 0;
+    flex: 1 1 140px;
+    /* Grow to fill, min width */
+    justify-content: center;
+  }
+
+  /* Adjust Canvas Area to fill remaining height */
+  .canvas-area {
+    height: calc(100vh - 60px - 200px);
+    /* header - sidebar */
+  }
 }

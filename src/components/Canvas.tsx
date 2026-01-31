@@ -112,6 +112,24 @@ export default function Canvas() {
         }
     };
 
+    // Touch Handling (Map to Mouse Logic)
+    const handleTouchStart = (e: React.TouchEvent, id: string, curX: number, curY: number) => {
+        // e.preventDefault(); // Might block scroll, be careful
+        const touch = e.touches[0];
+        setDraggingId(id);
+        setOffset({
+            x: touch.clientX - curX,
+            y: touch.clientY - curY
+        });
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        if (draggingId) {
+            const touch = e.touches[0];
+            updateComponentPos(draggingId, touch.clientX - offset.x, touch.clientY - offset.y);
+        }
+    };
+
     const stopDrag = () => {
         setDraggingId(null);
     };
@@ -125,6 +143,8 @@ export default function Canvas() {
             onMouseMove={onMouseMove}
             onMouseUp={stopDrag}
             onMouseLeave={stopDrag}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={stopDrag}
         >
             {/* Wires Layer (SVG) */}
             <svg className="wires-layer">
@@ -171,6 +191,7 @@ export default function Canvas() {
                             top: comp.y,
                         }}
                         onMouseDown={(e) => startDrag(e, comp.id, comp.x, comp.y)}
+                        onTouchStart={(e) => handleTouchStart(e, comp.id, comp.x, comp.y)}
                     >
                         <Component component={comp} />
                     </div>
