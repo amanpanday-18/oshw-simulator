@@ -35,6 +35,37 @@ export default function PotentiometerNode({ component }: { component: CircuitCom
         }
     };
 
+    const lastY = useRef<number | null>(null);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        e.stopPropagation(); // Prevent component drag
+        lastY.current = e.touches[0].clientY;
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        e.stopPropagation(); // Prevent component drag
+        if (lastY.current !== null) {
+            const currentY = e.touches[0].clientY;
+            const deltaY = lastY.current - currentY; // Up = active/increase, Down = decrease
+
+            // Sensitivity: 5 units per pixel moved
+            const change = deltaY * 5;
+
+            let newValue = value + change;
+            if (newValue < 0) newValue = 0;
+            if (newValue > 1023) newValue = 1023;
+
+            setValue(newValue);
+            updateCircuit(newValue);
+            lastY.current = currentY;
+        }
+    };
+
+    const handleTouchEnd = (e: React.TouchEvent) => {
+        e.stopPropagation();
+        lastY.current = null;
+    };
+
     return (
         <div
             className="pot-node"
@@ -48,7 +79,10 @@ export default function PotentiometerNode({ component }: { component: CircuitCom
                 ref={knobRef}
                 className="pot-knob"
                 style={{ transform: `rotate(${rotation}deg)` }}
-                title="Scroll to rotate"
+                title="Scroll or Drag to rotate"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
             >
                 {/* Indicator Marker */}
                 <div className="pot-marker" />
@@ -63,7 +97,7 @@ export default function PotentiometerNode({ component }: { component: CircuitCom
 
             {/* Value Tooltip on Hover */}
             <div className="pot-value">
-                Val: {value}
+                Val: {Math.round(value)}
             </div>
         </div>
     );
