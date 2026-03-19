@@ -3,8 +3,6 @@
 
 A web-based interactive Arduino Simulator built for the **FOSSEE Screening Task**. This application allows users to simulate basic Arduino circuits directly in the browser with a drag-and-drop interface, real-time wiring, and C++ code generation.
 
-![OSHW Simulator Screenshot](https://raw.githubusercontent.com/amanpanday-18/oshw-simulator/main/public/demo.png)
-*(Note: You can add a screenshot to the public folder and push it to have it show up here)*
 
 ## ✨ Features
 
